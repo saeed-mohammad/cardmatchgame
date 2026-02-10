@@ -11,10 +11,11 @@ This project demonstrates core iOS concepts like `UICollectionView`, reusable ce
 
 ## 📸 Screenshots
 
-<div align="center" style="display:flex; justify-content:center; gap:20px;">
-  <img src="CardMatch/screenshots/sc1.png" alt="CardMatch Game Screenshot 1" height="500">
-  <img src="CardMatch/screenshots/sc2.png" alt="CardMatch Game Screenshot 2" height="500">
-</div>
+<p align="center">
+  <img src="CardMatch/screenshots/sc1.png" width="400">
+  &nbsp;&nbsp;&nbsp;&nbsp;
+  <img src="CardMatch/screenshots/sc2.png" width="400">
+</p>
 
 ---
 ## 🚀 Features
