@@ -8,11 +8,26 @@
 
 /* Begin PBXBuildFile section */
 		808555612F3B78BC0080CA51 /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = 808555602F3B78BC0080CA51 /* README.md */; };
+		9309B49A600000C718D5A994 /* GameViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D9333E90ED3D64AC9B6D046 /* GameViewModelTests.swift */; };
+		B81C38BE03F6226374E58CB1 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3BFFFA93D54824931E94C28F /* Foundation.framework */; };
 /* End PBXBuildFile section */
 
+/* Begin PBXContainerItemProxy section */
+		6FC5436632990BB04B10053E /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 80C147A72F12920D00F2935F /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 80C147AE2F12920D00F2935F;
+			remoteInfo = CardMatch;
+		};
+/* End PBXContainerItemProxy section */
+
 /* Begin PBXFileReference section */
+		3BFFFA93D54824931E94C28F /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS26.0.sdk/System/Library/Frameworks/Foundation.framework; sourceTree = DEVELOPER_DIR; };
+		5D9333E90ED3D64AC9B6D046 /* GameViewModelTests.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = GameViewModelTests.swift; sourceTree = "<group>"; };
 		808555602F3B78BC0080CA51 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		80C147AF2F12920D00F2935F /* CardMatch.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CardMatch.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		D2952DB1427B680D97855681 /* CardMatchTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = CardMatchTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
@@ -44,15 +59,33 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		B1BC8F95D46C55485750B93A /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				B81C38BE03F6226374E58CB1 /* Foundation.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		6F5232501748A0E522FC24D9 /* iOS */ = {
+			isa = PBXGroup;
+			children = (
+				3BFFFA93D54824931E94C28F /* Foundation.framework */,
+			);
+			name = iOS;
+			sourceTree = "<group>";
+		};
 		80C147A62F12920D00F2935F = {
 			isa = PBXGroup;
 			children = (
 				808555602F3B78BC0080CA51 /* README.md */,
 				80C147B12F12920D00F2935F /* CardMatch */,
 				80C147B02F12920D00F2935F /* Products */,
+				97817A51773ED62A2A00402D /* Frameworks */,
+				AD18F40E1B3B7DD94379D8E2 /* CardMatchTests */,
 			);
 			sourceTree = "<group>";
 		};
@@ -60,8 +93,26 @@
 			isa = PBXGroup;
 			children = (
 				80C147AF2F12920D00F2935F /* CardMatch.app */,
+				D2952DB1427B680D97855681 /* CardMatchTests.xctest */,
 			);
 			name = Products;
+			sourceTree = "<group>";
+		};
+		97817A51773ED62A2A00402D /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				6F5232501748A0E522FC24D9 /* iOS */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		AD18F40E1B3B7DD94379D8E2 /* CardMatchTests */ = {
+			isa = PBXGroup;
+			children = (
+				5D9333E90ED3D64AC9B6D046 /* GameViewModelTests.swift */,
+			);
+			name = CardMatchTests;
+			path = CardMatchTests;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -83,11 +134,27 @@
 				80C147B12F12920D00F2935F /* CardMatch */,
 			);
 			name = CardMatch;
-			packageProductDependencies = (
-			);
 			productName = CardMatch;
 			productReference = 80C147AF2F12920D00F2935F /* CardMatch.app */;
 			productType = "com.apple.product-type.application";
+		};
+		C976CE8E7A116F6A01F62D83 /* CardMatchTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = D241360E931D68FD1B85ED1C /* Build configuration list for PBXNativeTarget "CardMatchTests" */;
+			buildPhases = (
+				FCD5621B380B9E7CF54BE71D /* Sources */,
+				B1BC8F95D46C55485750B93A /* Frameworks */,
+				E110AAA0366BA1BECEEF79C6 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				A2DB78FA333D757492D8A8A3 /* PBXTargetDependency */,
+			);
+			name = CardMatchTests;
+			productName = CardMatchTests;
+			productReference = D2952DB1427B680D97855681 /* CardMatchTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
 		};
 /* End PBXNativeTarget section */
 
@@ -119,6 +186,7 @@
 			projectRoot = "";
 			targets = (
 				80C147AE2F12920D00F2935F /* CardMatch */,
+				C976CE8E7A116F6A01F62D83 /* CardMatchTests */,
 			);
 		};
 /* End PBXProject section */
@@ -132,6 +200,13 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		E110AAA0366BA1BECEEF79C6 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
@@ -142,9 +217,57 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		FCD5621B380B9E7CF54BE71D /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				9309B49A600000C718D5A994 /* GameViewModelTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXSourcesBuildPhase section */
 
+/* Begin PBXTargetDependency section */
+		A2DB78FA333D757492D8A8A3 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = CardMatch;
+			target = 80C147AE2F12920D00F2935F /* CardMatch */;
+			targetProxy = 6FC5436632990BB04B10053E /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
 /* Begin XCBuildConfiguration section */
+		12142F47B19E2DCC54757182 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CLANG_ENABLE_OBJC_WEAK = NO;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 26.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.dev.CardMatchTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SWIFT_VERSION = 5.0;
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/CardMatch.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/CardMatch";
+			};
+			name = Debug;
+		};
+		413AB0EBA6102BC86A6F0254 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CLANG_ENABLE_OBJC_WEAK = NO;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 26.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.dev.CardMatchTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SWIFT_VERSION = 5.0;
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/CardMatch.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/CardMatch";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
 		80C147C32F12920F00F2935F /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -345,6 +468,15 @@
 			buildConfigurations = (
 				80C147C32F12920F00F2935F /* Debug */,
 				80C147C42F12920F00F2935F /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		D241360E931D68FD1B85ED1C /* Build configuration list for PBXNativeTarget "CardMatchTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				413AB0EBA6102BC86A6F0254 /* Release */,
+				12142F47B19E2DCC54757182 /* Debug */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

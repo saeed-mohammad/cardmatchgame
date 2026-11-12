@@ -13,12 +13,10 @@ class ViewController: UIViewController, UICollectionViewDelegate, UICollectionVi
    @IBOutlet weak var collectionView: UICollectionView!
    @IBOutlet weak var timerLabel: UILabel!
    
-   let cardModel = CardModel()
-   var cardsArray = [Card]()
-   var firstCardFlipedIndex:IndexPath?
-   
+   let viewModel = GameViewModel()
+
    var timer: Timer?
-   var milliSecond: Int = 10 * 1000 // 10 second
+   var milliSecond: Int = 30 * 1000 // 30 second
    var isTimerRunning = false
    
    override func viewDidLoad() {
@@ -30,11 +28,8 @@ class ViewController: UIViewController, UICollectionViewDelegate, UICollectionVi
       // hide scroll bar from collection
       collectionView.showsVerticalScrollIndicator = false
       
-      cardsArray = cardModel.getCard()
-      
-
       // intializing timer
-      timerLabel.text = "Remaining Time: 10.00"
+      timerLabel.text = "Remaining Time: 30.00"
       timerLabel.textColor = .black
       
    }
@@ -63,9 +58,9 @@ class ViewController: UIViewController, UICollectionViewDelegate, UICollectionVi
        timer?.invalidate()
        timer = nil
        isTimerRunning = false
-       milliSecond = 10 * 1000
+       milliSecond = 30 * 1000
        timerLabel.textColor = .black
-       timerLabel.text = "Remaining Time: 10.00"
+       timerLabel.text = "Remaining Time: 30.00"
    }
    
    @objc func startTimer() {
@@ -83,13 +78,13 @@ class ViewController: UIViewController, UICollectionViewDelegate, UICollectionVi
    
    //   MARK: - collection view delagete and protocols
    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-      return cardsArray.count
+      return viewModel.cards.count
    }
    
    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
       let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "CardCell", for: indexPath) as! CardCollectionViewCell
       
-      cell.configureCell(card: cardsArray[indexPath.row])
+      cell.configureCell(card: viewModel.cards[indexPath.row])
       return cell
    }
    
@@ -99,89 +94,39 @@ class ViewController: UIViewController, UICollectionViewDelegate, UICollectionVi
          startTimer()
       }
       
-      // ignore matched or already flipped card
-      if cardsArray[indexPath.row].isMatched ||
-         cardsArray[indexPath.row].isFliped {
-         return
+      // the view model owns the rules, the controller only animates the result
+      switch viewModel.flip(at: indexPath.row) {
+      case .ignored:
+         break
+      case .firstFlip(let index):
+         cell(at: index)?.flipUp()
+      case .match(let first, let second):
+         cell(at: first)?.flipUp()
+         cell(at: second)?.flipUp()
+         cell(at: first)?.remove()
+         cell(at: second)?.remove()
+         checkForGameEnd()
+      case .mismatch(let first, let second):
+         cell(at: second)?.flipUp()
+         cell(at: first)?.flipDown()
+         cell(at: second)?.flipDown()
       }
-      
-      let cell = collectionView.cellForItem(at: indexPath) as? CardCollectionViewCell
-      
-      // update the model
-      cardsArray[indexPath.row].isFliped = true
-      
-      // Handle animation according to card status
-      cell?.flipUp()
-      
-      if(firstCardFlipedIndex == nil){
-         // track the first card index
-         firstCardFlipedIndex = indexPath
-      }else{
-         // compare the match from first card to second
-         checkForMatch(indexPath)
-      }
-      
    }
    
-   // MARK: - Game logic
+   // MARK: - Game end
    
-   func checkForMatch(_ secondCardFlipedIndex: IndexPath){
-      
-      // get cells
-      let cellOne = collectionView.cellForItem(at: firstCardFlipedIndex!) as? CardCollectionViewCell
-      let cellTwo = collectionView.cellForItem(at: secondCardFlipedIndex) as? CardCollectionViewCell
-      
-      if (cardsArray[firstCardFlipedIndex!.row].cardName == cardsArray[secondCardFlipedIndex.row].cardName){
-         
-         // update the model
-         cardsArray[firstCardFlipedIndex!.row].isMatched = true
-         cardsArray[secondCardFlipedIndex.row].isMatched = true
-         
-         // remove user select card
-         cellOne?.remove()
-         cellTwo?.remove()
-         
-         // check if the all pairs clear or not
-         checkForGameEnd()
-         
-      }else{
-         
-         // not match
-         cardsArray[firstCardFlipedIndex!.row].isFliped = false
-         cardsArray[secondCardFlipedIndex.row].isFliped = false
-         
-         // flip back both card
-         cellOne?.flipDown()
-         cellTwo?.flipDown()
-         
-      }
-      
-      // reset the first card index
-      firstCardFlipedIndex = nil
-      
+   private func cell(at index: Int) -> CardCollectionViewCell? {
+      collectionView.cellForItem(at: IndexPath(row: index, section: 0)) as? CardCollectionViewCell
    }
    
    func checkForGameEnd() {
-      var hasWon = false
-      // check if there any card in not match
-      for card in cardsArray {
-         if card.isMatched == false{
-            hasWon = false
-            break
-         }
+      if viewModel.hasWon {
+         timer?.invalidate()
+         isTimerRunning = false
+         alertPopup(title: "Congratulation!", message: "You have won the game")
+      } else if milliSecond == 0 {
+         alertPopup(title: "Time's up", message: "Sorry, better luck next time")
       }
-      
-      if hasWon {
-         // user won, show alert
-         alertPopup(title: "Congratulation!",message: "You have won the game")
-      }else {
-         // user hasn't won yet
-         if milliSecond == 0 {
-            alertPopup(title: "Time's up", message: "Sorry, better luck next time")
-         }
-         // check if there timer left
-      }
-      
    }
    
    func alertPopup(title: String, message: String) {
@@ -191,8 +136,7 @@ class ViewController: UIViewController, UICollectionViewDelegate, UICollectionVi
          
          // reset game state
          self.resetTimer()
-         self.cardsArray = self.cardModel.getCard()
-         self.firstCardFlipedIndex = nil
+         self.viewModel.restart()
          // reload UI
          self.collectionView.reloadData()
       }
