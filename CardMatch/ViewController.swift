@@ -66,14 +66,26 @@ class ViewController: UIViewController, UICollectionViewDelegate, UICollectionVi
    @objc func startTimer() {
 
        isTimerRunning = true
-       timer = Timer.scheduledTimer(
-           timeInterval: 0.001,
-           target: self,
-           selector: #selector(timerFired),
-           userInfo: nil,
-           repeats: true
-       )
-      RunLoop.main.add(timer!, forMode: .common)
+       // Block-based timer with [weak self]: the timer no longer retains the controller.
+       let newTimer = Timer(timeInterval: 0.001, repeats: true) { [weak self] _ in
+          self?.timerFired()
+       }
+       timer = newTimer
+       RunLoop.main.add(newTimer, forMode: .common)
+   }
+
+   // MARK: - Lifecycle
+
+   override func viewWillDisappear(_ animated: Bool) {
+      super.viewWillDisappear(animated)
+      // stop the run loop from holding the timer once the screen goes away
+      timer?.invalidate()
+      timer = nil
+      isTimerRunning = false
+   }
+
+   deinit {
+      print("ViewController deinit")   // should print when the screen is dismissed
    }
    
    //   MARK: - collection view delagete and protocols
